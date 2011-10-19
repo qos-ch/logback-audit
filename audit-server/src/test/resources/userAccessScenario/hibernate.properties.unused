@@ -1,0 +1,68 @@
+######################
+### Query Language ###
+######################
+
+## define query language constants / function names
+
+hibernate.query.substitutions true 1, false 0, yes 'Y', no 'N'
+
+## package imports
+
+hibernate.query.imports org.hibernate.test, org.hibernate.eg
+
+
+## MySQL
+
+hibernate.dialect org.hibernate.dialect.MySQLDialect
+hibernate.connection.driver_class com.mysql.jdbc.Driver
+hibernate.connection.url jdbc:mysql://localhost/audit-db
+hibernate.connection.username root
+hibernate.connection.password 
+
+
+#################################
+### Hibernate Connection Pool ###
+#################################
+
+#hibernate.connection.pool_size 1
+#hibernate.statement_cache.size 25
+
+
+
+###########################
+### C3P0 Connection Pool###
+###########################
+
+#hibernate.c3p0.max_size 2
+#hibernate.c3p0.min_size 2
+#hibernate.c3p0.timeout 5000
+#hibernate.c3p0.max_statements 100
+#hibernate.c3p0.validate false
+
+##############################
+### Miscellaneous Settings ###
+##############################
+
+## print all generated SQL to the console
+
+hibernate.show_sql false
+
+
+## specify a JDBC isolation level
+
+#hibernate.connection.isolation 4
+
+
+## set the JDBC fetch size
+
+#hibernate.jdbc.fetch_size 25
+
+
+## set the maximum JDBC 2 batch size (a nonzero value enables batching)
+
+hibernate.jdbc.batch_size 0
+
+
+## use streams when writing binary types to / from JDBC
+
+hibernate.jdbc.use_streams_for_binary true

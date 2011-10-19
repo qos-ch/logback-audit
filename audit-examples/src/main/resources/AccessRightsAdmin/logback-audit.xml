@@ -1,0 +1,6 @@
+<auditor>
+ <appender name="server" class="ch.qos.logback.audit.client.net.SocketAuditAppender">
+   <remoteHost>localhost</remoteHost>
+   <port>9630</port>
+ </appender>
+</auditor>

@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+
+	<parent>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>audit-parent</artifactId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ch.qos.logback</groupId>
+	<artifactId>audit-examples</artifactId>
+	<packaging>jar</packaging>
+	<name>Logback Audit Examples</name>
+
+
+	<dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>audit-client</artifactId>
+    </dependency>		
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>		
+	</dependencies>
+  
+
+	<build>
+		<plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="../target/site/audit-examples/resources"/>
+                <copy todir="../target/site/audit-examples/resources">
+                  <fileset dir="src/main/resources/">
+                    <include name="**/*.xml"/>
+                  </fileset>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+		</plugins>
+
+	</build>
+
+  <reporting>
+    <plugins>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <configuration>
+          <!--<includes>
+            <include>**/include/*.java</include>
+          </includes>
+          -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  
+
+
+</project>

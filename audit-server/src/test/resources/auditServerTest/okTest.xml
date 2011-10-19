@@ -1,0 +1,9 @@
+<auditor>
+    
+ <appender name="saa" class="ch.qos.logback.audit.client.net.SocketAuditAppender">
+   <port>${port}</port>
+   <remoteHost>localhost</remoteHost>
+   <reconnectionDelay>50</reconnectionDelay>
+ </appender> 
+
+</auditor>

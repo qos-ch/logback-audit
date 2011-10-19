@@ -1,0 +1,9 @@
+<auditor>
+    
+ <appender name="socket" class="ch.qos.logback.audit.client.net.SocketAuditAppender">
+   <!-- intentionally use bad port number -->
+   <port>17939</port>
+   <remoteHost>localhost</remoteHost>
+ </appender> 
+
+</auditor>

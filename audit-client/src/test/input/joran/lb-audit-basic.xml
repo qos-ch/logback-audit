@@ -1,0 +1,13 @@
+
+<auditor>
+
+ <clientApplication name="basic-test"/>
+ <appender name="x" class="ch.qos.logback.audit.client.ListAuditAppender"/>
+
+ <!--
+ <validator>
+   <verb>add</verb>
+   <verb>delete</verb>
+ </validator>
+  -->
+</auditor>

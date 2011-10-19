@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>LOGBACK-AUDIT FAQ</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+</head>
+<body>
+	<script>
+prefix='';
+</script>
+
+<script src="templates/header.js"></script>
+<div id="left">
+  <script src="templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="templates/right.js"></script>
+</div>
+<div id="content">
+
+  <h2><a name="top">Frequently Asked Questions about logback-audit</a></h2>
+
+  <p><b>Generalities</b></p>
+  
+  <ol type="1">
+    <li><a href="#audit_undo">Can audit operations be
+    undone?</a></li>
+
+    <li><a href="#before_or_after">Should auditing be performed before
+    or after a business operation, i.e. the operation being audited,
+    is performed?</a></li>
+
+
+    <li><a href="#same_transaction">Can a business operation and its
+    auditing be performed in the same transaction?</a></li>
+    
+  </ol>
+
+  
+  <h2>Generalities</h2>
+
+  <p class="question">
+    <a name="audit_undo" href="#audit_undo">Can audit operations be
+    undone?</a>
+  </p>
+  
+  <div class="answer">
+    <p>In the current implementation of logback-audit, it is
+    <em>not</em> possible to undo an audit operation.
+    </p>
+  </div>
+
+  <!-- ============================================= -->
+  <p class="question">
+    <a name="before_or_after" href="#before_or_after">
+      Should auditing be performed before
+      or after a business operation, i.e. the operation being audited,
+      is performed?
+    </a>
+  </p>
+  
+  <div class="answer">
+    
+    <p>Suppose in a method foo adds a user to a database. The question
+    is whether the auditing operation should be done before or after the
+    call to <code>addUser()</code>.
+    </p>
+    
+    <p>The choice is between</p>
+    <p class="source">public void foo(String userName) {
+  addUser(userName);
+  audit(...);
+}</p>
+  
+   <p>and </p>
+   <p class="source">public void foo(String userName) {
+  audit(...);
+  addUser(userName);
+}</p>
+
+  <p>If the first variant is chosen and the call to addUser() fails
+  with an exception, then the <code>audit(...)</code> call will be
+  skipped. However, if the <code>addUser()</code> succeeds but the
+  <code>audit(...)</code> call fails with an exception, then the audit
+  database will be missing an entry.
+  </p>
+
+  <p>If the second variant is chosen and the call to
+  <code>audit(...)</code> fails with an exception, then the
+  <code>addUser(...)</code> call will be skipped. However, if the
+  <code>audit()</code> succeeds but the <code>addUser(...)</code> call
+  fails with an exception, then the audit database will contain a
+  superflous entry for an operation which did not complete.</p>
+
+  <p>In practice, auditing operations fail only if the audit server or
+  the database are not available, which are relatively rare
+  occurances. Thus, compared to an audit operation failure, there may
+  be many more reasons why a business operation might fail.
+  </p>
+
+  <p>It follows that under most circumtances, it is better to perform
+  an operation first and only after it succeeds to audit it.
+  </p>
+
+  </div>
+
+  <!-- ========================================================== -->
+
+  <p class="question">
+    <a name="same_transaction" href="#same_transaction">Can a business operation and its
+    auditing be performed in the same transaction?</a>
+  </p>
+  
+  <div class="answer">
+    
+    <p>Given that at present time audit operations cannot be undone,
+    it is not possible to have a businees operation amd its audit
+    operation be in the same transaction.
+    </p>
+
+    <p>Assuming you perform a business operation fist and its audit
+    second, if you require transactional behaviour, you can attempt
+    undo the business operation in case the audit operation fails.
+    Here is an example:
+    </p> 
+
+    <p class="source">public void foo(String userName) { 
+  addUser(userName); 
+  try { 
+    audit(...); 
+  } catch(AuditException e) {
+    removeUser(userName);
+  }
+}</p>
+
+    
+
+  </div> 
+</div>

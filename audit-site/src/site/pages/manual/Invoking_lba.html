@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>Chapter 3: The Contents of Audit Messages</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../css/site.css" />
+<link rel="stylesheet" type="text/css" media="print" href="../css/print.css" />
+<link type="text/css" rel="stylesheet" href="../css/SyntaxHighlighter.css"></link>
+
+
+</head>
+<body>
+ <script>
+      prefix='../';
+ </script>
+
+<script type="text/javascript" src="../js/prototype.js"> 
+<script src="../templates/header.js"></script>
+<div id="left">
+  <script src="../templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="right_menu.js"></script>
+</div>
+<div id="content">
+
+  <h1>Invoking logback-audit in your application</h1>
+
+  <h3>Classical Logs vs. Audit Messages</h3>
+
+  <p>In the Java language, classical log messages are generated using
+  tools such as log4j, logback-classic or java.util.logging. Classical
+  log messages carry technical information useful in debugging an
+  application, whereas audit messages contain information valuable for
+  the business. As a corollary, audit messages are typically generated
+  with lower frequency than classical log messages. In the remaining
+  of this section, we will refer to classical log messages simply as
+  log messages. Audit messages or audit logs will always be preceded
+  by the qualification "audit".
+  </p>
+
+  <p>For example, an audit message may say that user Alice completed a
+  1000 USD transaction with Bob at a given point in time, whereas
+  there may be hundreds of log events corresponding to that
+  transaction in the classical logs.
+  </p>
+
+  <h3>Example application</h3>
+
+  <p>Ultimately, audit events will be presented to the end-user in the
+  form of reports. It follows that audit messages must be logged in a
+  form that is amenable for aggregation as well querying in SQL.
+  </p>
+
+  <p>To illustrate this principle, let us imagine an application, say
+  <a
+  href="../xref/examples/access/AccessRightsAdministrator.html">
+    <code>AccessRightsAdministrator</code></a>, exposing operations
+    for managing permissions per user. As
+    <code>AccessRightsAdministrator</code> is only intended for
+    illustration purposes, it exposes an operation for adding a
+    permission to a user and another for removing a permission from a
+    user.
+  </p>
+
+  
+  <p>The source code for <a
+  href="../xref/examples/access/AccessRightsAdministrator.html">
+  <code>AccessRightsAdministrator</code></a> ships with the
+  logback-audit distribution.</p>
+
+  <p>Let us focus on the <code>addPermission()</code> method
+  reproduced below.
+  </p>
+
+  <pre class="source">static final String ADD_PERMISSION_VERB = "ADD_PERMISSION";
+static final String REMOVE_PERMISSION_VERB = "REMOVE_PERMISSION";
+  
+public void addPermission(User user, Permission permission)
+      throws AccessException {
+
+  // add the permission
+  permissionMap.addPermission(user, permission);
+
+  // let us now audit the code
+  
+  // The following will create an AuditEvent with a subject 
+  // equal to the user's name, a verb equal to ADD_PERMISSION, 
+  // an the object equal to the name of permission passed 
+  // as argument
+  AuditorFacade auditorFacade = new AuditorFacade(user.getName(),
+      ADD_PERMISSION_VERB, permission.getName());
+  try {
+    // send the AuditEvent through an appender (usually to a server) 
+    auditorFacade.audit();
+  } catch (AuditException e) {
+    // if an AuditException occurs, rethrow it as 
+    // an application failure (AccessException)
+    throw new AccessException("Audit failure", e);
+  }
+}</pre>
+
+  <p>The <code>addPermission()</code> method, adds a permission and
+  then records the addition operation in the audit logs. Contrary to
+  earlier chapters, AuditEceptions are rethrown as application
+  exceptions which takes up more lines of code. Such code can be
+  refactored to use less space. See the
+  <code>removePermission()</code> method for an example..
+  </p>
+
+  <p>Here is a shortened reproduction of the main() method of
+  <code>AccessRightsAdministrator</code> application.</p>
+
+  <p class="source"> public static void main(String[] args) throws AuditException, AccessException {
+    AuditorFactory.setApplicationName("AccessRightsAdmin);
+    AccessRightsAdministrator ara = new AccessRightsAdministrator();
+
+    [cut] // see source code for full details
+
+    // grant Alice admin permissions
+    ara.addPermission(alice, adminPerm);
+
+    // grant Bob create, comment and voting permissions
+    ara.addPermission(bob, createPerm);
+    ara.addPermission(bob, commentPerm);
+    ara.addPermission(bob, votePerm);
+
+    // grant Carol browsing permissions
+    ara.addPermission(carol, browsePerm);
+
+    // grant Dave browsing permissions
+    ara.addPermission(dave, browsePerm);
+
+    // remove permissions granted to Bob
+    ara.removePermission(bob, createPerm);
+    ara.removePermission(bob, commentPerm);
+    ara.removePermission(bob, votePerm);
+  }</p>
+
+  <p>Essentially, we configure logback-audit with the file
+  <a
+    href="../audit-examples/resources/AccessRightsAdmin/logback-audit.xml">
+    <em>AccessRightsAdmin/logback-audit.xml</em></a> which states that
+    logging events should be sent to to a logback-audit server
+    locateed on localhost and listening on port 9630.
+  </p>
+
+  <p>Assuming a logback-audit server as well as an appropriate
+  database have been started, launching the AccessRightsAdmin
+  applicaiton should insert audit events into the database.
+  </p>
+
+  <p>By design, logback-audit is intended to make it easy for creating
+  audit reports via SQL queries. The following SQL query will select
+  all audit events generated by the 'AccessRightsAdmin' application.
+  </p>
+  
+  <p class="source">select * from AUDIT_EVENT where CLI_APP_NAME='AccessRightsAdmin';</p>
+
+  <p>Here are sample results of the query. Some colums have been
+  omitted for brevity.</p>
+
+<table class="bodyTable">
+  <tr>
+    <th>EVENT_ID</th>
+    <th>TIMESTAMP</th>
+    <th>SUBJECT</th>
+    <th>VERB</th>
+    <th>OBJECT</th>
+    <th>CLI_APP_NAME</th>
+  </tr>
+  <tr>
+    <td>15</td>
+    <td>2008-05-13 19:48:54.296</td>
+    <td>alice</td>
+    <td>ADD_PERMISSION</td>
+    <td>administrator</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr class="alt">
+    <td>16</td>
+    <td>2008-05-13 19:48:54.328</td>
+    <td>bob</td>
+    <td>ADD_PERMISSION</td>
+    <td>create</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr>
+    <td>17</td>
+    <td>2008-05-13 19:48:54.328</td>
+    <td>bob</td>
+    <td>ADD_PERMISSION</td>
+    <td>comment</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr  class="alt">
+    <td>18</td>
+    <td>2008-05-13 19:48:54.343</td>
+    <td>bob</td>
+    <td>ADD_PERMISSION</td>
+    <td>vote</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr>
+    <td>19</td>
+    <td>2008-05-13 19:48:54.343</td>
+    <td>carol</td>
+    <td>ADD_PERMISSION</td>
+    <td>browse</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr  class="alt">
+    <td>20</td>
+    <td>2008-05-13 19:48:54.359</td>
+    <td>dave</td>
+    <td>ADD_PERMISSION</td>
+    <td>browse</td>
+    <td>AccessRightsAdmin</td>   
+  </tr>
+  <tr>
+    <td>21</td>
+    <td>2008-05-13 19:48:54.359</td>
+    <td>bob</td>
+    <td>REMOVE_PERMISSION</td>
+    <td>create</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr  class="alt">
+    <td>22</td>
+    <td>2008-05-13 19:48:54.39</td>
+    <td>bob</td>
+    <td>REMOVE_PERMISSION</td>
+    <td>comment</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+  <tr>
+    <td>23</td>
+    <td>2008-05-13 19:48:54.39</td>
+    <td>bob</td>
+    <td>REMOVE_PERMISSION</td>
+    <td>vote</td>
+    <td>AccessRightsAdmin</td>
+  </tr>
+</table>
+
+
+
+  <p><a
+  href="../xref/examples/access/AccessRightsChecker.html">AccessRightsChecker</a>
+  is a related stand-alone application which computes whether a user
+  has a given permission. Assuming the permissions relate to a
+  sensitive system, we might want to audit each access to the
+  system. Here is the code to do so.
+  </p>
+
+
+  <p class="source">  public boolean hasPermission(User user, Permission permission)
+      throws AccessException {
+    boolean allowed = permissionMap.hasPermission(user, permission);
+    String auditVerb;
+    if (allowed) {
+      auditVerb = "ACCESS_ALLOWED";
+    } else {
+      auditVerb = "ACCESS_DENIED";
+    }
+    AuditorFacade auditorFacade = new AuditorFacade(user.getName(), auditVerb,
+        permission.getName());
+    AuditHelper.audit(auditorFacade);
+    return allowed;
+  }</p>
+
+  <!--
+  select EVENT_ID,TIMESTAMP,SUBJECT,VERB,OBJECT,CLI_APP_NAME,CLI_APP_IP_ADDRESS 
+    from AUDIT_EVENT 
+  -->
+
+
+  <p>As in the previous AccessRightsAdmin example, assuming a
+  logback-audit server as well as an appropriate database have been
+  started, launching the <code>AccessRightsChecker</code> applicaiton should insert
+  audit events into the database.
+  </p>
+
+  <p>We can query for the audit events generated by
+  <code>AccessRightsChecker</code> with the following SQL select
+  query.</p>
+  
+  <p class="source">select * from AUDIT_EVENT where
+  CLI_APP_NAME='AccessRightsChecker'</p>
+
+  <p>Here are sample results of the query. Some colums have been
+  omitted for brevity.</p>
+
+  <table class="bodyTable">
+    <tr>
+      <th>EVENT_ID</th>
+      <th>TIMESTAMP</th>
+      <th>SUBJECT</th>
+      <th>VERB</th>
+      <th>OBJECT</th>
+      <th>CLI_APP_NAME</th>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>2008-05-13 19:38:56.5</td>
+      <td>bob</td>
+      <td>ACCESS_DENIED</td>
+      <td>browse</td>
+      <td>AccessRightsChecker</td>
+    </tr>
+    <tr class="alt">
+      <td>13</td>
+      <td>2008-05-13 19:38:56.546</td>
+      <td>carol</td>
+      <td>ACCESS_DENIED</td>
+      <td>browse</td>
+      <td>AccessRightsChecker</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>2008-05-13 19:38:56.546</td>
+      <td>dave</td>
+      <td>ACCESS_ALLOWED</td>
+      <td>browse</td>
+      <td>AccessRightsChecker</td>
+    </tr>
+</table>
+
+  <p>Note that 
+  </p>
+
+<script src="../templates/footer.js"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+
+alter table PREDICATE_MAP drop constraint FK7E366E94A7D7F477
+go
+
+drop table AUDIT_EVENT
+go
+
+drop table PREDICATE_MAP
+go
+
+create table AUDIT_EVENT (
+  EVENT_ID numeric(19,0) identity not null, 
+  TIMESTAMP datetime not null, 
+  SUBJECT varchar(1024) not null, 
+  VERB varchar(64) not null, 
+  OBJECT varchar(4096) null, 
+  ORG_APP_NAME varchar(64) null, 
+  ORG_APP_IP_ADDRESS varchar(48) null, 
+  CLI_APP_NAME varchar(64) not null, 
+  CLI_APP_IP_ADDRESS varchar(48) not null, 
+  primary key (EVENT_ID))
+go
+
+create table PREDICATE_MAP (
+  EVENT_ID numeric(19,0) not null, 
+  PREDICATE_VALUE varchar(4096) null, 
+  PREDICATE_KEY varchar(64) not null, 
+  primary key (EVENT_ID, PREDICATE_KEY))
+go
+
+create index SUBJECT_IDX on AUDIT_EVENT (SUBJECT)
+go
+
+create index TIMESTAMP_IDX on AUDIT_EVENT (TIMESTAMP)
+go
+
+create index ORG_APP_NAME_IDX on AUDIT_EVENT (ORG_APP_NAME)
+go
+
+create index OBJECT_IDX on AUDIT_EVENT (OBJECT)
+go
+
+create index CLI_APP_NAME_IDX on AUDIT_EVENT (CLI_APP_NAME)
+go
+
+create index VERB_IDX on AUDIT_EVENT (VERB)
+go
+
+alter table PREDICATE_MAP 
+  add constraint FK7E366E94A7D7F477 foreign key (EVENT_ID) references AUDIT_EVENT
+go

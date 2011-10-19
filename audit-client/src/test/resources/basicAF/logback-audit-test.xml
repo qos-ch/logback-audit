@@ -1,0 +1,3 @@
+<auditor>
+ <appender name="x" class="ch.qos.logback.audit.client.ListAuditAppender"/>
+</auditor>

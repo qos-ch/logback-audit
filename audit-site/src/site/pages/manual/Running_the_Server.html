@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>Chapter 2: Server</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../css/site.css" />
+<link rel="stylesheet" type="text/css" media="print" href="../css/print.css" />
+
+</head>
+<body>
+  <script>
+      prefix='../';
+  </script>
+<script src="../templates/header.js"></script>
+<div id="left">
+  <script src="../templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="right_menu.js"></script>
+</div>
+<div id="content">
+
+  <h1>Running the server</h1>
+
+  <p>Before the logback-aduit server can be run, it must first be
+  adapted to your local environment. The next few sections will take
+  you through the process.</p>
+    
+  <h2>Creating the server application</h2>
+
+  <p>In this section lists the steps required to create an
+  logback-audit server instance adapted for your local
+  environment. The resulting server instance is a web-application
+  (.war file) which can be run in any J2EE application server.
+  </p>
+
+  <p>Altough Maven is not required to run logback-audit server,
+  creating the server as explianed in this section assumes that you
+  have installed Maven version 2.0.8 or later. </p>
+
+  <p>Without further ado, let us begin creating a logback-audit server
+  instance.</p>
+
+  <p>First, copy <em>logback-audit/audit-server-generator/</em> folder
+  which ships with logback-audit to a directory of your
+  choice. Hereafter we refer to that directory as <code>$ASG</code>.
+  </p>
+
+  <p>Change your current directory to <code>$ASG</code>.</p>
+
+
+  <p>Launch the command</p>
+  
+  <p class="source">mvn process-resources</p>
+
+  <p>The above command will ask you two questions on the console.
+  </p>
+
+  <p class="source">Please enter the name of the group for this server: <b>com.wombat</b>
+  
+Please enter the project name for this server: <b>Eora</b></p>
+
+
+  <p>In the above, let us assume that "com.wombat" is the name of the
+  group (or orgnanisation) that will be running the server. Let "Eora"
+  be the name of the server instance.</p>
+
+
+  <p>If things went well, the "mvn process-resources" command should
+  print "BUILD SUCCESSFUL" on the console. It should also have
+  genereted a folder called <code>Eora</code> under <code>$ASG</code>.
+  </p>
+  
+  <p>Change the current directory to the <code>$ASG/Eora</code>
+  folder.</p>
+
+  <p>You can build the server web-application with the command. </p>
+
+  <p class="source">mvn package</p>
+
+  <p>The resulting war file can be deployed in an application server
+  of your choice. However, the audit-server is intended to be used
+  along with a database which will persist audit events.
+  </p>
+
+  <h2>Choosing and configuring a database</h2>
+
+  <p>Logback-audit can be used in conjuction with any database system
+  supported by hibernate, the list includes HSQL, Microsoft SQL
+  Server, MySQL, Oracle, PostgreSQL, DB2 and many others.
+  </p>
+
+  <p>The server instance we generated previously includes a small
+  application called CreateAuditTable.  It can connect to a target
+  database and create the tables required by the logback-audit server
+  instance.
+  </p>
+
+  <p>At this stage, it might convenient to import the server instance
+  we created, namely Eura, into Eclipse.
+  </p>
+  
+  <p>The Eclipse project view of the project can be generated with the
+  "mvn eclipse:eclipse" command. Once that is done, import the project
+  into your Eclipse workspace.</p>
+
+  <p>Let us now customize Eora for HSQLDB.</p>
+  
+  <h3>HSQLDB</h3>
+
+  <p>In this section, we will configure the server for HSQLDB, a very
+  light-weight and easy to install database.
+  </p>
+  
+  <p>You can obtain a copy of HSQLDB from the <a
+  href="http://www.hsqldb.org/">project site</a>. Let $HSQLDB be the
+  fodler where you unpacked the HSQLDB distribution.
+  </p>
+
+  <p>Setting the current directory to $HSQLDB, start the HSQLDB server
+  with the name "audit". The appropriate command is:
+  </p>
+
+  <p class="source">java -cp lib/hsqldb.jar org.hsqldb.Server \
+           -database.0 file:data/audit -dbname.0 audit</p>
+
+           
+
+  <p>Once you start the server, you can connect to it using an SQL
+  client. <a href="http://squirrel-sql.sourceforge.net/">SQuirreL</a>
+  is a reasonably good and universal SQL client written in Java.
+  </p>
+
+  <p>Connection SQuirreL to our audit database requires the
+  configuration of a HSQLDB driver. Select to modify the "HSQLDB
+  Server" from the list of drivers shown when you start SQuirreL, as
+  shown below.</p>
+
+  <img src="../images/hsqldb_driver0.gif" alt="Modify HSQLDB Driver"/>
+
+  <p>Select the "Extra Class Path" tab and add the file
+  <em>hsqldb.jar</em> located under the <em> $HSQLDB/lib</em> folder
+  (as shown below). Once the "org.jsqldb.jdbcDriver" is successfully
+  registed for the driver definition "HSQLDB Server", add an alias for
+  the audit database.
+  </p>
+
+  <img src="../images/hsqldb_driver1.gif" alt="Modify HSQLDB Driver"/>
+
+
+  <p>Enter "Audit on HSQLDB" for the name of the alias, choose "HSQLDB
+  Server" for the driver, enter the URL
+  "jdbc:hsqldb:hsql://localhost/audit", and the password "sa", as
+  shown below:
+  </p>
+  
+  <img src="../images/hsqldb_alias.gif" alt="Add HSQLDB Alias"/>
+
+
+  <h3>Customzing hibernate.properties</h3>
+
+  <p>Logback-audit server uses Hibernate, allowing logback-audit to be
+  compatible with various relational database systems. However, each
+  database requires a minimal amount of configuration. This can be
+  accomplished by adapting <em>hibernate.properties</em> file. There
+  should already by a file named hibernate.properties under the
+  <em>$ASG/Eora/src/main/resources/Eora/</em> folder, where $ASG
+  stands for the location where you copied
+  <em>logback-audit/audit-server-generator/</em>.
+  </p>
+
+  <p>Under normal circumstances, you would need to customize this file
+  for your environment. However, if you installed and started HSQLDB
+  as presented previously, the <em>hibernate.properties</em> file
+  should be appropriate for your HSQLDB instance running locally.</p>
+
+
+  <h3>Creating the tables</h3>
+
+  <p>For the logback-audit server depends on the existence of several
+  tables to be present in the audit database. The next few paragraphs
+  discuss the creation of these tables.
+  </p>
+
+  <p>The Eora project should contain a stand-alone Java application
+  called <code>CreateAuditTables</code>. We recommend that you launch
+  this command from within your IDE, for example Eclipse. 
+  </p>
+
+  <p>Launching "mvn eclipse:eclipse" command will generate the
+  relevant eclipse project files from Eora's pom.xml file. After the
+  eclipse project files are created, do import the Eora project into
+  Eclipse.
+  </p>
+
+  <p>Once you have successfully imported the Eora project into
+  Eclipse, search for the <code>CreateAuditTables</code> class and
+  then launch it as a Java application. Assuming you have not changed
+  the logging configration of teh Eora project, the following lines
+  should appear on the console (edited for brevity):</p>
+
+<p class="source">21:29:46.187 [main] INFO  org.hibernate.cfg.Environment - Hibernate 3.2.2
+[snip] log messages removed for berevity
+alter table PREDICATE_MAP drop constraint FK7E366E94A7D7F477
+drop table AUDIT_EVENT if exists
+drop table PREDICATE_MAP if exists
+create table AUDIT_EVENT (EVENT_ID bigint generated by default as identity (start with 1), \
+  TIMESTAMP timestamp not null, SUBJECT varchar(1024) not null, VERB varchar(64) not null, \
+  OBJECT varchar(4096), ORG_APP_NAME varchar(64), ORG_APP_IP_ADDRESS varchar(48), \
+  CLI_APP_NAME varchar(64) not null, CLI_APP_IP_ADDRESS varchar(48) not null, \
+  primary key (EVENT_ID))
+create table PREDICATE_MAP (EVENT_ID bigint not null, PREDICATE_VALUE varchar(4096), \
+  PREDICATE_KEY varchar(64) not null, primary key (EVENT_ID, PREDICATE_KEY))
+create index CLI_APP_NAME_IDX on AUDIT_EVENT (CLI_APP_NAME)
+create index TIMESTAMP_IDX on AUDIT_EVENT (TIMESTAMP)
+create index ORG_APP_NAME_IDX on AUDIT_EVENT (ORG_APP_NAME)
+create index VERB_IDX on AUDIT_EVENT (VERB)
+create index OBJECT_IDX on AUDIT_EVENT (OBJECT)
+create index SUBJECT_IDX on AUDIT_EVENT (SUBJECT)
+alter table PREDICATE_MAP add constraint FK7E366E94A7D7F477 foreign key (EVENT_ID) \
+  references AUDIT_EVENT
+21:29:46.671 [main] INFO  o.h.tool.hbm2ddl.SchemaExport - schema export complete
+21:29:46.671 [main] INFO  o.h.c.DriverManagerConnectionProvider - cleaning up \ 
+  connection pool: jdbc:hsqldb:hsql://localhost:9001/audit</p>
+  
+
+  <p>You can verify that the tables are creating by connecting to the
+  database via SQuirrel. Under the "Audit on HSQLDB" alias, then
+  "PUBLIC", and then "TABLE", you should see the AUDIT_EVENT and
+  PREDICTE_MAP tables. Graphically, you see something akin to:
+  </p>
+
+  <img src="../images/hsqldb_table0.gif" alt="Add HSQLDB Alias"/>
+  
+  <h2>Starting the server</h2>
+
+  <p>Once the hibernate.properties files is customized for your
+  environment and the database tables are created, you can start the
+  logback-audit server. The server is a war file that can be deployed
+  in any application server.
+  </p>
+
+  <p>For the purposes of this document, you can also start the server
+  within the Eora project itself. Assuming your current directory is
+  $ASG/Eora/, start the server under Jetty. The command is:
+  </p>
+
+  <p class="source">maven jetty:run</p>
+
+  <p>You should see jetty started and listening on port 8080, also
+  meaning that logback-audit server is running under jetty. Once the
+  logback-audit server is running, clients can connect to it and send
+  audit messages which will be then persisted on the database.</p>
+
+  <h2>Configuring the client</h2>
+
+  <p>Now that we have a server running, let us configure a client
+  application to log on the server.
+  </p>
+
+  
+  <p>As in the <a href="introduction.html#first_baby_step">First
+  BabyStep example</a> in the previous chapter, the next application
+  logs a single audit message..</p>
+
+
+<em>Example 1: First baby step (<a href="../xref/examples/SecondStep.html">audit-examples/src/main/java/examples/SecondStep.java</a>)</em>
+
+<p class="source">package examples;
+
+import ch.qos.logback.audit.AuditException;
+import ch.qos.logback.audit.client.AuditorFacade;
+import ch.qos.logback.audit.client.AuditorFactory;
+
+public class SecondStep {
+
+  public static void main(String[] args) throws AuditException {
+    AuditorFactory.setApplicationName("SecondStep");
+    new AuditorFacade("baby", "take", "step").audit();
+  }
+}</p>
+  
+  <p>Compared to the BabyStep example, the only change in the code
+  affects the name of the application, that is "SecondStep" instead of
+  "BabyStep". Setting the application name to "SecondStep" direct the
+  logback-audit framework to search for the
+  "SecondStep/logback-audit.xml" configuraiton file for the
+  initialization of the framework.
+  </p>
+
+  <p>The contents of <a
+  href="../audit-examples/resources/SecondStep/logback-audit.xml">
+  <em>SecondStep/logback-audit.xml</em></a> are reproduced below:</p>
+
+  
+  <p class="source">&lt;auditor>
+ &lt;appender name="server" class="ch.qos.logback.audit.client.net.SocketAuditAppender">
+   &lt;remoteHost>localhost&lt;/remoteHost>
+   &lt;port>9630&lt;/port>
+ &lt;/appender>
+&lt;/auditor></p>
+
+  <p>Compared to the "First BasbtStep" exaple, the appender class has
+  been changed to <code>SocketAuditAppender</code> instead of
+  <code>SLF4JAuditAppender</code>.
+  </p>
+  
+  <p>After executing the SecondStep appliation, the contents of your
+  first persisted audit message should appear in the
+  database. Connecting to our HSQLDB database with SQuirrel, you
+  should see the event in the database, as shown in the figure below.
+  </p>
+
+  <img src="../images/second_step.png" alt="second step"/>
+
+
+  
+<script src="../templates/footer.js"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>Chapter 1: Introduction</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../css/site.css" />
+<link rel="stylesheet" type="text/css" media="print" href="../css/print.css" />
+
+</head>
+<body>
+  <script>
+      prefix='../';
+  </script>
+<script src="../templates/header.js"></script>
+<div id="left">
+  <script src="../templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="right_menu.js"></script>
+</div>
+<div id="content">
+
+  <h1>Introduction</h1>
+
+  
+    <h2>What is logback-audit?</h2>
+
+    <p>Logback-audit is a logging framework specialized for
+    auditing. In logback-audit, a logging message consists of a
+    subject, a verb and an object, and with optional predicates.
+    </p>
+
+    <h2> <a name="basy_step" href="#first_baby_step">First Baby
+    Step</a></h2>
+    
+    
+    <p>Let us begin by presenting a minial application which logs an
+    audit message.</p>
+
+
+<em>Example 1: First baby step (<a href="../xref/examples/BabyStep.html">audit-examples/src/main/java/examples/BabyStep.java</a>)</em>
+
+<p class="source">package examples;
+
+import ch.qos.logback.audit.AuditException;
+import ch.qos.logback.audit.client.AuditorFacade;
+import ch.qos.logback.audit.client.AuditorFactory;
+
+public class BabyStep {
+
+  public static void main(String[] args) throws AuditException {
+    AuditorFactory.setApplicationName("BabyStep");
+    new AuditorFacade("baby", "take", "step").audit();
+  }
+}</p>
+
+   <p>The BasyStep class starts by importing the
+   <code>AuditException</code>, <code>AuditorFacade</code> and
+   <code>AuditorFactory</code> classes.
+   </p>
+
+   <p>On the first line of the <code>main()</code> method it sets the
+   application name by calling the static
+   <code>setApplicationName()</code> method of the AuditorFactory
+   class. This has the effect of initializing logback-audit framework
+   via the configuration file resource
+   "<em>BabyStep/logback-audit.xml</em>" shown below.
+   </p>
+
+<em>Config 1: Configuration file targeting SLF4J (<a
+href="../audit-examples/resources/BabyStep/logback-audit.xml">audit-examples/src/main/resources/BabyStep/logback-audit.xml</a>)</em>
+<p class="source">&lt;auditor>
+ &lt;appender name="slf4j" 
+           class="ch.qos.logback.audit.client.SLF4JAuditAppender"/>
+&lt;/auditor>
+</p>
+
+   <p>Assuming SLF4J is setup to use slf4j-simple, Running this
+   application will print the following on the console.
+   </p>
+
+   <p class="source">20 [main] INFO audit - AuditEvent(id=null, timestamp=2008-03-24 10:48:39.983, \
+  subject=baby, verb=take, object=step, \
+  predicateMap = {}, originatingApplication=null, \ 
+  clientApplication=Appl(name=BabyStep, ip=localhost))</p>
+
+  <p>The above is essantially a string representation of an
+  AuditEvent, consisting of a subject, a verb, an object, an optional
+  list of predicates, the originating application if any, the client
+  application. The client application is the application actually
+  invoking the logback-audit API. The originating application is the
+  application causing the audit event to occur. If the originating
+  application data is not provided, then it is assumed to be identical
+  to the client application.
+  </p>
+
+<script src="../templates/footer.js"></script>
+</div>
+</body>
+</html>

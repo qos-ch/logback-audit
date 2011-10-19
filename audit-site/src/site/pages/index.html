@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>Logback Audit</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+</head>
+<body>
+	<script>
+prefix='';	
+</script>
+
+<script src="templates/header.js"></script>
+<div id="left">
+  <script src="templates/left.js"></script>
+</div>
+
+<div id="content">
+	
+	
+		<h2>Logback-Audit</h2>
+
+    <p>Logback-Audit is designed for logging events which have
+    long-term business significance. Logback-audit is commercial
+    software based on logback-core.
+		</p>
+
+    <p>As this time, logback-audit consists of three modules
+    <code>audit-common</code>, <code>audit-client</code> and
+    <code>audit-server</code>.
+		</p>
+
+		<p>The audit-common module, as the name suggests, defines the
+		classes shared between the audit-client and audit-server
+		modules. The audit-server module defines the classes which are
+		needed by the server side. Similarly, the audit-client mode
+		defines the classes which are needed for the client-side
+    </p>
+
+    <p>At this time logback-audit can be deployed in client-server
+    mode. We intend to support client-only mode in the near future.
+    </p>
+
+    <h2>Client-server mode</h2>
+
+    <p>In this mode, multiple client applications log audit events by
+    sending messages over the network to the audit-server. The
+    audit-server persists each audit event onto a database. Thus, the
+    the said applications can be deployed on hosts different then the
+    host running the audit-server. The database storing the audit
+    message can be on a different host as well.
+    </p>
+
+    <p>
+      <img src="images/architecture-small.jpg" alt="client-server mode" border="0"/>
+    </p>
+
+    <h2>Client-only mode</h2>
+
+    <p>In client-only mode, the client logs audit events directly on
+    the database. There is no audit server involved. This mode will be
+    available in the near future.
+    </p>
+
+
+ <p>
+      <img src="images/client-only-architecture.jpg" alt="client-only
+      mode" border="0"/>
+    </p>
+    
+
+	
+<script src="templates/footer.js"></script>	
+</div>
+</body>
+</html>

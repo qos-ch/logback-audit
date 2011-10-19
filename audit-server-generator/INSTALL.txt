@@ -1,0 +1,52 @@
+
+- Copy logback-audit/audit-server-generator/ to a directory of your
+  choice. Hereafter we refer to that directory as $ASG.
+
+- cd $ASG
+
+
+- Launch the command "mvn process-resources" from within the $ASG
+  directory.
+
+- The above command will ask you two questions on the console.
+
+
+  "Please enter the name of the group for this server:" 
+   com.foobar
+
+
+  "Please enter the project name for this server:"
+  my-audit
+
+- Assuming "my-audit" is the name of you project, the "mvn
+  process-resources" command will generate the folder $ASG/my-audit.
+
+- cd $ASG/my-audit
+
+
+
+- mvn eclipse:eclipse
+- mvn package
+
+- You can now open the project in Eclipse.
+
+
++=================================+
+| Customzing hibernate.properties |
++=================================+
+
+Logback-audit server uses Hibernate. Thus, you need to configure
+"hibernate.properties" to get your audit server running. There should
+already by a file under
+$ASG/my-audit/src/test/resources/arethuse-audit/hibernate.properties
+
+You need to customize this file for your environment.
+
+
++=================================+
+| Creating the tables             |
++=================================+
+
+
+- There should
+

@@ -1,0 +1,59 @@
+<project name="pokinmon-generator" default="usage" basedir="." >
+
+  <property name="logback-audit-version" value="0.5-SNAPSHOT"/>
+  <property name="project-version" value="1.0-SNAPSHOT"/>
+
+  <target name="usage">
+    <echo>
+      
+    These are the targets supported by this ANT build script:
+    
+    generate: Generates a new logback-audit server based on a template.
+    </echo>
+  </target>
+
+
+  <target name="input">
+    <input addproperty="group">
+
+  Please enter the name of the group for this server: </input>
+
+    <input addproperty="project">
+
+  Please enter the project name for this server:</input>
+
+  </target>
+
+  <target name="overwriteCheck">
+    <available file="${project}" property="project-present"/>
+
+    <fail if="project-present">
+
+      Destination directory ${projet} is already present. 
+      Aborting all further processing.      
+    </fail>
+  </target>
+
+  <target name="cp" depends="overwriteCheck">
+    
+    <available file="${project}" property="projectDirExists"/>
+
+    <copy todir="${project}">
+      <fileset dir="template" excludes="**/.svn" />
+      <filterset>
+        <filter token="PROJECT_NAME" value="${project}"/>
+        <filter token="GROUP_NAME" value="${group}"/>
+        <filter token="LOGBACK_AUDIT_VERSION" value="${logback-audit-version}"/>
+        <filter token="PROJECT_VERSION" value="${project-version}"/>
+      </filterset>
+    </copy>
+  </target>
+
+  <target name="renameDirs">
+    <move file="${project}/src/main/resources/project"
+          tofile="${project}/src/main/resources/${project}"/>
+  </target>
+
+  
+  <target name="generate" depends="input, cp, renameDirs"/>
+</project>

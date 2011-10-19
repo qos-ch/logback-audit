@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+
+  <class name="ch.qos.logback.audit.AuditEvent" table="AUDIT_EVENT">
+
+    <id name="id" type="long" column="EVENT_ID">
+      <generator class="native" />
+    </id>
+
+    <!-- for subject and object, a varchar (type "string") of length
+         512 is insufficient in some applications
+         -->
+    <property name="timestamp" column="TIMESTAMP" type="timestamp" not-null="true" index="TIMESTAMP_IDX"/>
+    <property name="subject" column="SUBJECT" type="string" length="1024" not-null="true" index="SUBJECT_IDX"/>
+    <property name="verb" column="VERB" type="string" length="64" not-null="true" index="VERB_IDX"/>
+    <property name="object" column="OBJECT" type="string" length="4096" index="OBJECT_IDX" />
+    
+    <component name="originatingApplication" class="ch.qos.logback.audit.Application">
+      <property name="name" column="ORG_APP_NAME" type="string" length="64" index="ORG_APP_NAME_IDX"/>
+      <property name="ipAddress" column="ORG_APP_IP_ADDRESS" type="string" length="48"/>
+    </component>
+    
+    <component name="clientApplication" class="ch.qos.logback.audit.Application">
+      <property name="name" column="CLI_APP_NAME" type="string" not-null="true" length="64" index="CLI_APP_NAME_IDX"/>
+      <!-- 39 (=32+7) characters are queried to represent IPv6 type
+           address as string ex: 1080:0:0:0:8:800:200C:417A
+      -->
+      <property name="ipAddress" column="CLI_APP_IP_ADDRESS" type="string" length="48" not-null="true"/>
+    </component>
+    
+    
+    <map name="predicateMap" table="PREDICATE_MAP" lazy="false"> 
+      <key column="EVENT_ID"/> 
+      <map-key column="PREDICATE_KEY" type="string"  length="64" />
+      <element column="PREDICATE_VALUE" type="string" length="4096" />
+    </map>
+
+  </class>
+</hibernate-mapping>
