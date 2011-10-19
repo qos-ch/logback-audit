@@ -167,6 +167,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.0</version>
+        <configuration>
+          <excludeModules>fml</excludeModules>
+          <excludeModules>apt</excludeModules>
+        </configuration>
       </plugin>
       <plugin>  
         <groupId>org.apache.maven.plugins</groupId>
@@ -261,7 +265,11 @@
       <id>pixie</id>
       <url>scp://pixie/var/www/audit.qos.ch/htdocs/</url>
     </site>
-    
+
+    <repository>
+      <id>pixie</id>
+      <url>scp://pixie.qos.ch/var/mvnrepo/</url>
+    </repository>
     
   </distributionManagement>
 

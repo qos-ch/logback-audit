@@ -1,46 +1,57 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 
+  <parent>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>audit-parent</artifactId>
+    <version>0.5-SNAPSHOT</version>
+  </parent>
 
-	<parent>
-		<groupId>ch.qos.logback</groupId>
-		<artifactId>audit-parent</artifactId>
-		<version>0.5-SNAPSHOT</version>
-	</parent>
+  <modelVersion>4.0.0</modelVersion>
 
-	<modelVersion>4.0.0</modelVersion>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>audit-site</artifactId>
+  <packaging>jar</packaging>
+  <name>Logback Audit Site</name>
 
-	<groupId>ch.qos.logback</groupId>
-	<artifactId>audit-site</artifactId>
-	<packaging>jar</packaging>
-	<name>Logback Audit Site</name>
-
-	<build>
-		<resources>
-			<resource>
-				<directory>src/site/pages</directory>
-				<!-- 
-					We're saving filtered html docs in a temporary folder
-					and telling the site plug-in to get the docs there.
-				-->
+  <url>http://audit.qos.ch</url>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/site/pages</directory>
+        <!-- We're saving filtered html docs in a temporary folder-->
+        <!-- and telling the site plug-in to get the docs there.-->
         <targetPath>../../../target/site</targetPath>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
 
-	</build>
+  </build>
 
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-				  <outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <outputDirectory>${project.parent.basedir}/target/site
+          </outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
