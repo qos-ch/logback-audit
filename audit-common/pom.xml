@@ -15,7 +15,6 @@
 
   <groupId>ch.qos.logback</groupId>
   <artifactId>audit-common</artifactId>
-	<version>${parent.version}</version>
   <packaging>jar</packaging>
   <name>Logback Audit Common</name>
 

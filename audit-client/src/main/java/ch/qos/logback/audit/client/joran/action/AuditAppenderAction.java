@@ -62,7 +62,7 @@ public class AuditAppenderAction extends Action {
       inError = true;
       addError(
         "Could not create an Appender of type ["+className+"].", oops);
-      throw new ActionException(ActionException.SKIP_CHILDREN, oops);
+      throw new ActionException(oops);
     }
   }
 
@@ -94,7 +94,6 @@ public class AuditAppenderAction extends Action {
 
     Auditor ac = (Auditor) context; 
     ac.setAuditAppender(auditAppender);
-
   }
 
 }

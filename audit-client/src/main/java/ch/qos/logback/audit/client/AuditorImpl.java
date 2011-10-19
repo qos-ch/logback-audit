@@ -45,10 +45,6 @@ public class AuditorImpl  {
     return aai.detachAppender(appender);
   }
 
-  public Appender<AuditEvent> detachAppender(String name) {
-    return aai.detachAppender(name);
-  }
-
   public Appender<AuditEvent> getAppender(String name) {
     return aai.getAppender(name);
   }

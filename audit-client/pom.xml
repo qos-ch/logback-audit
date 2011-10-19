@@ -1,67 +1,66 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 
-	<parent>
-		<groupId>ch.qos.logback</groupId>
-		<artifactId>audit-parent</artifactId>
-		<version>0.5-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>audit-parent</artifactId>
+    <version>0.5-SNAPSHOT</version>
+  </parent>
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>ch.qos.logback</groupId>
-	<artifactId>audit-client</artifactId>
-	<version>${parent.version}</version>
-	<packaging>jar</packaging>
-	<name>Logback Audit Client</name>
-
-
-	<dependencies>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>audit-common</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-
-	    <dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-	</dependencies>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>audit-client</artifactId>
+  <packaging>jar</packaging>
+  <name>Logback Audit Client</name>
 
 
-	<build>
-		<plugins>
+  <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>audit-common</artifactId>
+    </dependency>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>once</forkMode>
-					<reportFormat>plain</reportFormat>
-					<trimStackTrace>false</trimStackTrace>
-					<excludes>
-						<exclude>**/*AllTest.java</exclude>
-						<exclude>**/PackageTest.java</exclude>
-						<exclude>**/SizeBasedRollingTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+    </dependency>
 
-	</build>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkMode>once</forkMode>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/*AllTest.java</exclude>
+            <exclude>**/PackageTest.java</exclude>
+            <exclude>**/SizeBasedRollingTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
 
 </project>

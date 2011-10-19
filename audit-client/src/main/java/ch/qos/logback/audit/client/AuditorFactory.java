@@ -23,6 +23,7 @@ import ch.qos.logback.audit.AuditException;
 import ch.qos.logback.audit.client.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.status.Status;
+import ch.qos.logback.core.status.StatusChecker;
 import ch.qos.logback.core.status.StatusManager;
 import ch.qos.logback.core.util.Loader;
 import ch.qos.logback.core.util.OptionHelper;
@@ -45,7 +46,8 @@ public class AuditorFactory {
 
   static void checkSanity(Auditor auditor) throws AuditException {
     StatusManager sm = auditor.getStatusManager();
-    if (sm.getLevel() > Status.INFO) {
+    StatusChecker checker = new StatusChecker(sm);
+    if (checker.getHighestLevel(0) > Status.INFO) {
       StatusPrinter.print(sm);
     }
     
