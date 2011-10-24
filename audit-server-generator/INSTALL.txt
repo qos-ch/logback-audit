@@ -38,10 +38,9 @@
 Logback-audit server uses Hibernate. Thus, you need to configure
 "hibernate.properties" to get your audit server running. There should
 already by a file under
-$ASG/my-audit/src/test/resources/arethuse-audit/hibernate.properties
+$ASG/my-audit/src/test/resources/audit/hibernate.properties
 
 You need to customize this file for your environment.
-
 
 +=================================+
 | Creating the tables             |
