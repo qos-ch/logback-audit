@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>ch.qos.logback</groupId>
 		<artifactId>audit-parent</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.5</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -56,24 +56,5 @@
 		</plugins>
 
 	</build>
-
-  <reporting>
-    <plugins>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <configuration>
-          <!--<includes>
-            <include>**/include/*.java</include>
-          </includes>
-          -->
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  
-
 
 </project>

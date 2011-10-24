@@ -6,17 +6,28 @@
   <parent>
     <groupId>ch.qos.logback</groupId>
     <artifactId>audit-parent</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.5</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>ch.qos.logback</groupId>
   <artifactId>audit-site</artifactId>
   <packaging>jar</packaging>
   <name>Logback Audit Site</name>
 
   <url>http://audit.qos.ch</url>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License - v 1.0</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+
+    <license>
+      <name>GNU Lesser General Public License</name>
+      <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+    </license>
+  </licenses>
+
   <build>
     <resources>
       <resource>
@@ -28,29 +39,33 @@
       </resource>
     </resources>
 
-  </build>
-
-
-  <reporting>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <configuration>
-          <outputDirectory>${project.parent.basedir}/target/site
-          </outputDirectory>
+          <outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
         </configuration>
+
+        <!--<reportPlugins>-->
+          <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-project-info-reports-plugin</artifactId>-->
+            <!--<reportSets>-->
+              <!--<reportSet><reports/></reportSet>-->
+             <!--</reportSets>-->
+          <!--</plugin>-->
+        <!--</reportPlugins>-->
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
+    </plugins>
+
+  </build>
+
+
+  <reporting>
+    <plugins>
+
+
     </plugins>
   </reporting>
 
