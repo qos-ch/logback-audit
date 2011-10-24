@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -116,7 +117,7 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>1.0-beta-1</version>
+        <version>2.0</version>
       </extension>
     </extensions>
     <plugins>
@@ -149,10 +150,10 @@
           </execution>
         </executions>
       </plugin>
-       <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
-         <version>2.8</version>
+        <version>2.8</version>
         <configuration>
           <downloadSources>true</downloadSources>
         </configuration>
@@ -181,38 +182,42 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>3.0</version>
         <configuration>
-        <reportPlugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.8</version>
-            <configuration>
-              <aggregate>true</aggregate>
-          <links>
-            <link>
-              http://java.sun.com/j2se/1.5.0/docs/api
-            </link>
-          </links>
-          <groups>
-            <group>
-              <title>Logback Audit Common</title>
-              <packages>ch.qos.logback.audit</packages>
-            </group>
-            <group>
-              <title>Logback Audit Client</title>
-              <packages>ch.qos.logback.audit.client:ch.qos.logback.audit.client.*</packages>
-            </group>
-            <group>
-              <title>Logback Audit Server</title>
-              <packages>ch.qos.logback.audit.server:ch.qos.logback.audit.server.*</packages>
-            </group>
-            <group>
-              <title>Examples</title>
-              <packages>examples*</packages>
-            </group>
-          </groups>
-            </configuration>
-          </plugin>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.8</version>
+              <configuration>
+                <aggregate>true</aggregate>
+                <links>
+                  <link>
+                    http://java.sun.com/j2se/1.5.0/docs/api
+                  </link>
+                </links>
+                <groups>
+                  <group>
+                    <title>Logback Audit Common</title>
+                    <packages>ch.qos.logback.audit</packages>
+                  </group>
+                  <group>
+                    <title>Logback Audit Client</title>
+                    <packages>
+                      ch.qos.logback.audit.client:ch.qos.logback.audit.client.*
+                    </packages>
+                  </group>
+                  <group>
+                    <title>Logback Audit Server</title>
+                    <packages>
+                      ch.qos.logback.audit.server:ch.qos.logback.audit.server.*
+                    </packages>
+                  </group>
+                  <group>
+                    <title>Examples</title>
+                    <packages>examples*</packages>
+                  </group>
+                </groups>
+              </configuration>
+            </plugin>
 
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -233,16 +238,16 @@
   </build>
 
   <!--<reporting>-->
-    <!--<plugins>-->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-project-info-reports-plugin</artifactId>-->
-        <!--<version>2.4</version>-->
-        <!--<reportSets>-->
-          <!--<reportSet><reports/></reportSet>-->
-        <!--</reportSets>-->
-     <!--</plugin>-->
-    <!--</plugins>-->
+  <!--<plugins>-->
+  <!--<plugin>-->
+  <!--<groupId>org.apache.maven.plugins</groupId>-->
+  <!--<artifactId>maven-project-info-reports-plugin</artifactId>-->
+  <!--<version>2.4</version>-->
+  <!--<reportSets>-->
+  <!--<reportSet><reports/></reportSet>-->
+  <!--</reportSets>-->
+  <!--</plugin>-->
+  <!--</plugins>-->
   <!--</reporting>-->
 
   <profiles>
@@ -274,12 +279,34 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>javadocjar</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.8</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 
   <distributionManagement>
     <site>
       <id>pixie</id>
-      <url>scp://pixie/var/www/audit.qos.ch/htdocs/</url>
+      <url>scp://pixie.qos.ch/var/www/audit.qos.ch/htdocs/</url>
     </site>
 
     <repository>
