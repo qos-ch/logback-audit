@@ -2,7 +2,7 @@
 
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>@GROUP_NAME@</groupId>
+	<groupId>org.change.me</groupId>
 	<artifactId>@PROJECT_NAME@</artifactId>
 	<packaging>war</packaging>
 	<name>@PROJECT_NAME@</name>
@@ -40,16 +40,8 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>0.9.9</version>
+			<version>1.0.0</version>
 		</dependency>
-
-		<!--
-			<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.0</version>
-			</dependency>    
-		-->
 
 		<dependency>
 			<groupId>hsqldb</groupId>

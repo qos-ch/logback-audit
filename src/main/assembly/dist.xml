@@ -54,6 +54,21 @@
 				<exclude>*.bak</exclude>
 			</excludes>
 		</fileSet>
+
+		<fileSet>
+			<directory>audit-server-generator/</directory>
+			<outputDirectory>audit-server-generator/</outputDirectory>
+			<includes>
+				<include>pom.xml</include>
+				<include>build.xml</include>
+				<include>template/</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+
+
 		<!-- Module Source directories -->
 		<fileSet>
 			<directory>audit-common/src/</directory>

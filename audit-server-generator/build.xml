@@ -14,14 +14,15 @@
 
 
   <target name="input">
-    <input addproperty="group">
 
-  Please enter the name of the group for this server: </input>
-
-    <input addproperty="project">
-
-  Please enter the project name for this server:</input>
-
+    <!-- due to http://jira.codehaus.org/browse/MANTRUN-98 we can't 
+       take a user specified value for groupId. -->
+    <!--
+    <input addproperty="group" defaultvalue="com.foo"
+           message="Please enter the name of the group for this server: "/>
+    -->
+    <input addproperty="project" 
+           message="Please enter the project name for this server: "/>
   </target>
 
   <target name="overwriteCheck">
