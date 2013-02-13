@@ -9,6 +9,7 @@
   <version>0.6</version>
   <packaging>pom</packaging>
   <name>Logback Audit Parent</name>
+  <description>Logback Audit project</description>
 
 
   <url>http://audit.qos.ch</url>
@@ -20,6 +21,31 @@
     <module>audit-examples</module>
     <module>audit-site</module>
   </modules>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License - v 1.0</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+
+    <license>
+      <name>GNU Lesser General Public License</name>
+      <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/qos/logback</url>
+    <connection>git@github.com:qos-ch/logback-audit.git</connection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>ceki</id>
+      <name>Ceki Gulcu</name>
+      <email>ceki@qos.ch</email>
+    </developer>
+  </developers>
 
   <properties>
     <slf4j.version>1.7.2</slf4j.version>
