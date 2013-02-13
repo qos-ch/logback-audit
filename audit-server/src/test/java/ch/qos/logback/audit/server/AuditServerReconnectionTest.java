@@ -92,7 +92,7 @@ public class AuditServerReconnectionTest extends TestCase {
     fireServer();
 
     // reconnectionDelay 50
-    Thread.sleep(100 + 50);
+    Thread.sleep(1000 + 50);
 
     Auditor auditor = AuditorFactory.getAuditor();
     StatusPrinter.print(auditor);

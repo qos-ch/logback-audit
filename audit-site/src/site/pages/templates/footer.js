@@ -4,12 +4,7 @@ document.write('<table class="footer" border="0">')
 
 document.write('<tr>')
 
-document.write('<td valign="top">Copyright &copy; 2012  <a href="http://www.qos.ch/">QOS.ch</a></td>')
-
-document.write('  <td rowspan="2">')
-document.write('    <script type="text/javascript" src="http://www.ohloh.net/p/586885/widgets/project_users.js"></script>')
-document.write('  </td>')
-
+document.write('<td valign="top">Copyright &copy; 2013  <a href="http://www.qos.ch/">QOS.ch</a></td>')
 
 document.write('</tr>')
 
