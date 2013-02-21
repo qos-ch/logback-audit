@@ -21,7 +21,6 @@ body {
 	font-size: smaller;
 }
 
-
 #job img {
    border:1px solid #DDDDDD;
 }
@@ -39,16 +38,39 @@ p.menu {
 }
 
 
-#left {
+#leftOld {
   position: absolute;
+  font-size: 80%;
   left: 0px;
   width: 15em;
   color: #564b47;
   margin: 4px 0px 0px 4px; 
   padding: 0px;
   border: 1px solid #cccccc;
-  background-color: #ffffff;
+  background-color: #fff8e8;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+#left {
+  position: absolute;
+  left: 0px;
+  width: 15em;
+  margin: 4px 0px 0px 4px; 
+  padding: 0px;
   font-size: 80%;
+  background-color: #ffffff;
+}
+
+.menuGroup {
+  border: 1px solid #cccccc;  
+  background-color: #fff8e8;
+  color: #564b47;
+  border: 1px solid #cccccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 #left a, #right a {
@@ -56,7 +78,7 @@ p.menu {
   width: 95.5%; 
   margin: 0px; 
   padding: 2px; 
-  border: solid 1px #FFFFFF; 
+  border: solid 1px #fff8e8; 
   color: #0066cc; 
   text-decoration: none;
 }
@@ -74,11 +96,37 @@ p.menu_header {
   border: solid 1px #FFFFFF; 
   background-color: #3333CC; 
   color: #ffffff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
-#left a:hover.x {
-  background-color: #fff; 
+#left div.jobadd {
+  font-size: 140%;
+  color: #fff;
+  margin: 0px;
+  padding: 0px;
+
+  text-align: center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+  background-image: -ms-linear-gradient(bottom right, #FFBB55 0%, #FF8822 100%);
+  background-image: -moz-linear-gradient(bottom right, #FFBB55 0%, #FF8822 100%);
+  background-image: -o-linear-gradient(bottom right, #FFBB55 0%, #FF8822 100%);
+  background-image: -webkit-gradient(linear, right bottom, left top, color-stop(0, #FFBB55), color-stop(1, #FF8822));
+  background-image: -webkit-linear-gradient(bottom right, #FFBB55 0%, #FF8822 100%);
+  background-image: linear-gradient(to top left, #FFBB55 0%, #FF8822 100%);
 }
+
+#left div.jobadd a, div.jobadd a:hover {
+  background-color: transparent;
+  color: #fff;
+  border-width: 0px;	
+}
+
+/* ------------------------------------------- */
 
 #right {
   position: absolute;
@@ -113,6 +161,7 @@ p.menu_header {
   margin: 0px 15em 0px 15em;
   padding: 0px;
   background-color: #ffffff;  
+  line-height: 130%;
 }
 
 #content img {
@@ -142,4 +191,30 @@ span.asGroovy:hover {
    background: #E0E0EF;
    cursor: pointer;
 }
+
+/* ------------------------------------ */
+
+.anchor { display:none; }
+
+h1 .anchor:before {content:url(anchor24.png);}
+h2 .anchor:before {content:url(anchor20.png);}
+h3 .anchor:before {content:url(anchor16.png);}
+h4 .anchor:before {content:url(anchor12.png);}
+td .anchor:before {content:url(anchor12.png);}
+
+h1:hover .anchor { margin-left: -24px; }
+h2:hover .anchor { margin-left: -20px; }
+h3:hover .anchor { margin-left: -16px; }
+h4:hover .anchor { margin-left: -12px; }
+td:hover .anchor { margin-left: -12px; }
+
+h1:hover .anchor, 
+h2:hover .anchor,  
+h3:hover .anchor, 
+h4:hover .anchor,
+td:hover .anchor {
+  display: inline-block;
+  text-decoration: none;
+}
+
 
