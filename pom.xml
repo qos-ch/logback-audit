@@ -1,368 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>ch.qos.logback</groupId>
-  <artifactId>audit-parent</artifactId>
-  <version>0.6</version>
-  <packaging>pom</packaging>
-  <name>Logback Audit Parent</name>
-  <description>Logback Audit project</description>
+	<groupId>ch.qos.logback</groupId>
+	<artifactId>audit-parent</artifactId>
+	<version>0.7-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Logback Audit Parent</name>
+	<description>Logback Audit project</description>
+
+	<url>http://audit.qos.ch</url>
+
+	<modules>
+		<module>audit-common</module>
+		<module>audit-server</module>
+		<module>audit-client</module>
+		<module>audit-examples</module>
+		<module>audit-site</module>
+	</modules>
+
+	<licenses>
+		<license>
+			<name>Eclipse Public License - v 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/qos/logback</url>
+		<connection>git@github.com:qos-ch/logback-audit.git</connection>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>ceki</id>
+			<name>Ceki Gulcu</name>
+			<email>ceki@qos.ch</email>
+		</developer>
+	</developers>
+
+	<properties>
+		<java.version>11</java.version>
+		<slf4j.version>1.7.2</slf4j.version>
+		<logback.version>1.0.11</logback.version>
+		<janino.version>2.5.15</janino.version>
+		<servlet-api.version>2.5</servlet-api.version>
+		<janino.version>2.5.10</janino.version>
+		<junit.version>4.13.2</junit.version>
+		<mail.version>1.4</mail.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<hsqldb.version>1.8.1.1</hsqldb.version>
+		<wagon-ssh.version>2.0</wagon-ssh.version>
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.6</maven-surefire-plugin.version>
+		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+		<maven-eclipse-plugin.version>2.8</maven-eclipse-plugin.version>
+		<maven-assembly-plugin.version>2.1</maven-assembly-plugin.version>
+		<maven-site-plugin.version>3.0</maven-site-plugin.version>
+		<maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
+		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+		<ant-antlr.version>1.6.5</ant-antlr.version>
+		<antlrall.version>2.7.4</antlrall.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>ant</groupId>
+				<artifactId>ant-antlr</artifactId>
+				<version>${ant-antlr.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>antlr</groupId>
+				<artifactId>antlrall</artifactId>
+				<version>${antlrall.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>audit-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>audit-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
 
-  <url>http://audit.qos.ch</url>
+			<dependency>
+				<groupId>janino</groupId>
+				<artifactId>janino</artifactId>
+				<version>${janino.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${mail.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+			</dependency>
 
-  <modules>
-    <module>audit-common</module>
-    <module>audit-server</module>
-    <module>audit-client</module>
-    <module>audit-examples</module>
-    <module>audit-site</module>
-  </modules>
+		</dependencies>
+	</dependencyManagement>
 
-  <licenses>
-    <license>
-      <name>Eclipse Public License - v 1.0</name>
-      <url>http://www.eclipse.org/legal/epl-v10.html</url>
-    </license>
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>${wagon-ssh.version}</version>
+			</extension>
+		</extensions>
 
-    <license>
-      <name>GNU Lesser General Public License</name>
-      <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
-    </license>
-  </licenses>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
 
-  <scm>
-    <url>https://github.com/qos/logback</url>
-    <connection>git@github.com:qos-ch/logback-audit.git</connection>
-  </scm>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+				</plugin>
 
-  <developers>
-    <developer>
-      <id>ceki</id>
-      <name>Ceki Gulcu</name>
-      <email>ceki@qos.ch</email>
-    </developer>
-  </developers>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
-  <properties>
-    <slf4j.version>1.7.2</slf4j.version>
-    <logback.version>1.0.9</logback.version>
-    <janino.version>2.6.1</janino.version>
-  </properties>
+		<plugins>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>${maven-eclipse-plugin.version}</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+				</configuration>
+			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/dist.xml</descriptor>
+					</descriptors>
+					<finalName>
+						logback-audit-${project.version}
+					</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<outputDirectory>target/site/dist/</outputDirectory>
+				</configuration>
+			</plugin>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
-      </dependency>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${maven-site-plugin.version}</version>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<version>${maven-javadoc-plugin.version}</version>
+							<configuration>
+								<aggregate>true</aggregate>
+								<links>
+									<link>https://docs.oracle.com/en/java/javase/11/docs/api/index.html</link>
+								</links>
+								<groups>
+									<group>
+										<title>Logback Audit Common</title>
+										<packages>ch.qos.logback.audit</packages>
+									</group>
+									<group>
+										<title>Logback Audit Client</title>
+										<packages>ch.qos.logback.audit.client:ch.qos.logback.audit.client.*</packages>
+									</group>
+									<group>
+										<title>Logback Audit Server</title>
+										<packages>ch.qos.logback.audit.server:ch.qos.logback.audit.server.*</packages>
+									</group>
+									<group>
+										<title>Examples</title>
+										<packages>examples*</packages>
+									</group>
+								</groups>
+							</configuration>
+						</plugin>
 
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>audit-common</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-jxr-plugin</artifactId>
+							<version>${maven-jxr-plugin.version}</version>
+							<configuration>
+								<includes>
+									<include>examples/*.java</include>
+								</includes>
+							</configuration>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
 
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>audit-client</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+		</plugins>
 
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-core</artifactId>
-        <version>${logback.version}</version>
-      </dependency>
+	</build>
 
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${logback.version}</version>
-      </dependency>
+	<!--<reporting> -->
+	<!--<plugins> -->
+	<!--<plugin> -->
+	<!--<groupId>org.apache.maven.plugins</groupId> -->
+	<!--<artifactId>maven-project-info-reports-plugin</artifactId> -->
+	<!--<version>2.4</version> -->
+	<!--<reportSets> -->
+	<!--<reportSet><reports/></reportSet> -->
+	<!--</reportSets> -->
+	<!--</plugin> -->
+	<!--</plugins> -->
+	<!--</reporting> -->
 
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
+	<profiles>
+		<profile>
+			<id>license</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.google.code.maven-license-plugin</groupId>
+						<artifactId>maven-license-plugin</artifactId>
+						<configuration>
+							<header>src/main/licenseHeader.txt</header>
+							<quiet>false</quiet>
+							<failIfMissing>true</failIfMissing>
+							<aggregate>true</aggregate>
+							<includes>
+								<include>src/**/*.java</include>
+							</includes>
+							<useDefaultExcludes>true</useDefaultExcludes>
+							<useDefaultMapping>true</useDefaultMapping>
+							<properties>
+								<year>2006</year>
+							</properties>
+							<headerDefinitions>
+								<headerDefinition>src/main/javadocHeaders.xml</headerDefinition>
+							</headerDefinitions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
+		<profile>
+			<id>javadocjar</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.8</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
+		<profile>
+			<id>sign-artifacts</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
+	</profiles>
 
-      <dependency>
-        <groupId>janino</groupId>
-        <artifactId>janino</artifactId>
-        <version>2.5.10</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4</version>
-      </dependency>
-      <dependency>
-        <groupId>dom4j</groupId>
-        <artifactId>dom4j</artifactId>
-        <version>1.6.1</version>
-      </dependency>
-      <dependency>
-        <groupId>hsqldb</groupId>
-        <artifactId>hsqldb</artifactId>
-        <version>1.8.0.7</version>
-      </dependency>
+	<distributionManagement>
+		<site>
+			<id>pixie</id>
+			<url>scp://pixie.qos.ch/var/www/audit.qos.ch/htdocs/</url>
+		</site>
 
-    </dependencies>
-  </dependencyManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-        <version>2.0</version>
-      </extension>
-    </extensions>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.6</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <version>2.8</version>
-        <configuration>
-          <downloadSources>true</downloadSources>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <descriptors>
-            <descriptor>
-              src/main/assembly/dist.xml
-            </descriptor>
-          </descriptors>
-          <finalName>
-            logback-audit-${project.version}
-          </finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <outputDirectory>target/site/dist/</outputDirectory>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.0</version>
-        <configuration>
-          <reportPlugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>2.8</version>
-              <configuration>
-                <aggregate>true</aggregate>
-                <links>
-                  <link>
-                    http://java.sun.com/j2se/1.5.0/docs/api
-                  </link>
-                </links>
-                <groups>
-                  <group>
-                    <title>Logback Audit Common</title>
-                    <packages>ch.qos.logback.audit</packages>
-                  </group>
-                  <group>
-                    <title>Logback Audit Client</title>
-                    <packages>
-                      ch.qos.logback.audit.client:ch.qos.logback.audit.client.*
-                    </packages>
-                  </group>
-                  <group>
-                    <title>Logback Audit Server</title>
-                    <packages>
-                      ch.qos.logback.audit.server:ch.qos.logback.audit.server.*
-                    </packages>
-                  </group>
-                  <group>
-                    <title>Examples</title>
-                    <packages>examples*</packages>
-                  </group>
-                </groups>
-              </configuration>
-            </plugin>
-
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jxr-plugin</artifactId>
-              <version>2.3</version>
-              <configuration>
-                <includes>
-                  <include>examples/*.java</include>
-                </includes>
-              </configuration>
-            </plugin>
-          </reportPlugins>
-        </configuration>
-      </plugin>
-
-    </plugins>
-
-  </build>
-
-  <!--<reporting>-->
-  <!--<plugins>-->
-  <!--<plugin>-->
-  <!--<groupId>org.apache.maven.plugins</groupId>-->
-  <!--<artifactId>maven-project-info-reports-plugin</artifactId>-->
-  <!--<version>2.4</version>-->
-  <!--<reportSets>-->
-  <!--<reportSet><reports/></reportSet>-->
-  <!--</reportSets>-->
-  <!--</plugin>-->
-  <!--</plugins>-->
-  <!--</reporting>-->
-
-  <profiles>
-    <profile>
-      <id>license</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.google.code.maven-license-plugin</groupId>
-            <artifactId>maven-license-plugin</artifactId>
-            <configuration>
-              <header>src/main/licenseHeader.txt</header>
-              <quiet>false</quiet>
-              <failIfMissing>true</failIfMissing>
-              <aggregate>true</aggregate>
-              <includes>
-                <include>src/**/*.java</include>
-              </includes>
-              <useDefaultExcludes>true</useDefaultExcludes>
-              <useDefaultMapping>true</useDefaultMapping>
-              <properties>
-                <year>2006</year>
-              </properties>
-              <headerDefinitions>
-                <headerDefinition>src/main/javadocHeaders.xml</headerDefinition>
-              </headerDefinitions>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>javadocjar</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.8</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>sign-artifacts</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.1</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-  </profiles>
-
-  <distributionManagement>
-    <site>
-      <id>pixie</id>
-      <url>scp://pixie.qos.ch/var/www/audit.qos.ch/htdocs/</url>
-    </site>
-
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-
-  </distributionManagement>
-
+	</distributionManagement>
 
 </project>

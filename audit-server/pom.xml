@@ -1,15 +1,16 @@
-<?xml version="1.0"?>
-<project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<groupId>ch.qos.logback</groupId>
 		<artifactId>audit-parent</artifactId>
-		<version>0.6</version>
+		<version>0.7-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ch.qos.logback</groupId>
 	<artifactId>audit-server</artifactId>
 	<packaging>jar</packaging>
 	<name>Logback Audit Server Runtime</name>
@@ -48,26 +49,19 @@
 			<artifactId>logback-core</artifactId>
 			<scope>provided</scope>
 		</dependency>
-    
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
-			<!--
-				<exclusions>
-				<exclusion>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-				</exclusion>
-				</exclusions>
-			-->
+			<!-- <exclusions> <exclusion> <groupId>ch.qos.logback</groupId> <artifactId>logback-core</artifactId> 
+				</exclusion> </exclusions> -->
 		</dependency>
 
 
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.7</version>
 		</dependency>
 
 		<dependency>
@@ -101,10 +95,7 @@
 			<version>1.0</version>
 		</dependency>
 
-
 	</dependencies>
-
-
 
 	<build>
 		<plugins>
@@ -120,16 +111,6 @@
 						<exclude>**/*AllTest.java</exclude>
 						<exclude>**/PackageTest.java</exclude>
 					</excludes>
-				</configuration>
-			</plugin>
-
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
 				</configuration>
 			</plugin>
 
